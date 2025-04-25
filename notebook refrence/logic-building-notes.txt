@@ -1,0 +1,437 @@
+Hello Sir, F.Y.I 
+
+Module 1 :- 
+1.) Buy X and Get X Cart
+    - Buy X and Get X Cart Discount has been FIXED 
+    - Flash Sale Banner has been Added 
+    ss :- https://prnt.sc/joaj18lu6C3N
+    - tested the functionality using multiple test case & combination
+<< DONE 
+
+2.) Cart Adjustment Discount 
+    - cart discount completed 
+    - testing functionality & scheduling 
+    - added via coupon to cart
+    SS :- https://prnt.sc/FOD4up0cW8O7
+<< DONE 
+
+3.) Buy X and Get Y 
+    - working on html and save meta fields
+<< In-Progress 
+
+
+percentage example 
+if customer buy 2 products and get 1 product then each product price is 20 
+then cart must have 60 and then percentage discount must be minus
+
+and for fixed example 
+if customer buy 2 products and get 1 product then each product price is 20 
+the addon product will be at specific cost admin want discount_value field
+
+we also need to calculate the 3 product price after that we will give discount 
+
+
+<?php
+// File: bogo-detail-page-option.php
+
+// Add Metabox Start here
+    function bogo_discount_meta_box() {
+        add_meta_box(
+            'bogo_discount_meta_box',
+            'BOGO Discount Options',
+            'bogo_discount_meta_box_callback',
+            'wc_bogo',
+            'normal',
+            'high'
+        );
+    }
+    add_action('add_meta_boxes', 'bogo_discount_meta_box');
+// Add Metabox End here
+
+// Metabox Callback Function Start Here 
+    function bogo_discount_meta_box_callback($post) {
+        wp_nonce_field('bogo_discount_meta_nonce', 'bogo_discount_meta_nonce');
+
+        // Load saved data
+        $bogo_discount_type = get_post_meta($post->ID, '_bogo_discount_type', true);
+        $wc_bogo_filter_type = get_post_meta($post->ID, '_wc_bogo_filter_type', true);
+        $min_qty = get_post_meta($post->ID, '_min_qty', true);  
+        $max_qty = get_post_meta($post->ID, '_max_qty', true);
+        $free_qty = get_post_meta($post->ID, '_free_qty', true);
+        $discount_type = get_post_meta($post->ID, '_discount_type', true);
+        $discount_value = get_post_meta($post->ID, '_discount_value', true);
+        $recursive = get_post_meta($post->ID, '_recursive', true);
+
+        // Retrieve saved products
+        $selected_products = get_post_meta($post->ID, '_selected_products', true);
+        $selected_products = !empty($selected_products) ? explode(',', $selected_products) : [];
+
+        // Retrieve selected categories
+        $selected_categories = get_post_meta($post->ID, '_selected_categories', true);
+        $selected_categories = !empty($selected_categories) ? explode(',', $selected_categories) : [];
+
+        $status = get_post_meta($post->ID, '_bogo_deal_status', true);
+       // echo '<p><strong>BOGO Deal Status:</strong> ' . ($status == 'yes' ? 'yes' : 'no') . '</p>';
+
+        ?>
+
+        <div>
+            <label for="bogo_discount_type">Choose a Discount Type</label>
+
+            <select id="bogo_discount_type" name="bogo_discount_type">
+                <option value="not_selected" <?php selected($bogo_discount_type, 'not_selected'); ?>>Select Discount Type</option>
+                <optgroup label="Simple Discount">
+                    <option value="product_adjustment" <?php selected($bogo_discount_type, 'product_adjustment'); ?>>Product Adjustment</option>
+                    <option value="cart_adjustment" <?php selected($bogo_discount_type, 'cart_adjustment'); ?>>Cart Adjustment</option>
+                    <option value="free_shipping" <?php selected($bogo_discount_type, 'free_shipping'); ?>>Free Shipping</option>
+                </optgroup>
+                <optgroup label="Bulk Discount">
+                    <option value="bulk_discount" <?php selected($bogo_discount_type, 'bulk_discount'); ?>>Bulk Discount</option>
+                    <option value="set_discount" <?php selected($bogo_discount_type, 'set_discount'); ?>>Bundle (Set) Discount</option>
+                </optgroup>
+                <optgroup label="BOGO Discount">
+                    <option value="buy_x_get_x" <?php selected($bogo_discount_type, 'buy_x_get_x'); ?>>Buy X Get X</option>
+                    <option value="buy_x_get_y" <?php selected($bogo_discount_type, 'buy_x_get_y'); ?>>Buy X Get Y</option>
+                </optgroup>
+            </select>
+        </div>
+
+
+        <?php if ($status == 'yes' ) { ?>
+        <div id="bogo_fields_container_buy_x_get_x" style="display: none; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                <div class="awdr-discount-container">
+                    <h2 class="awdr-discount-heading">Filter By</h2>
+
+                    <div class="awdr-discount-content">
+                         <p>Choose on which products the discount should be applied (This can be products/categories/SKU) </p>
+                         </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; margin: 50px 0;">
+
+                    <!-- repeater required here with same functionality asper product 
+                    we need to category , tags , attribute, sku, sale -->
+
+                    <select id="wc_bogo_filter_type" name="wc_bogo_filter_type">
+                        <option value="all_products" <?php selected($wc_bogo_filter_type, 'all_products'); ?>>All Products</option>
+                        <option value="product" <?php selected($wc_bogo_filter_type, 'product'); ?>>Product</option>
+                        <option value="category" <?php selected($wc_bogo_filter_type, 'category'); ?>>Categories</option>
+                        <option value="tags" <?php selected($wc_bogo_filter_type, 'tags'); ?>>Tags</option>
+                    </select>
+
+                    <select id="bogo_search_field" style="width: 300px;"></select>
+                    <div id="bogo_selected_products">
+                        <?php
+                        foreach ($selected_products as $product_id) {
+                            $product = get_post($product_id);
+                            $post_title = $product->post_title ?? null;
+                            echo '<div data-id="' . esc_attr($product_id) . '">' . esc_html($post_title) . ' <button type="button" class="remove-product">X</button></div>';
+                        }
+                        ?>
+                    </div>
+                    <input type="hidden" id="selected_product_ids" name="selected_product_ids" value="<?php echo esc_attr(implode(',', $selected_products)); ?>" />
+
+                      <!-- repeater required here with same functionality asper product 
+                    we need to category , tags , attribute, sku, sale -->
+                </div>       
+                <div class="awdr-discount-container">
+                    <h2 class="awdr-discount-heading">Discount Type</h2>
+                    <div class="awdr-discount-content">
+                        <p>Enter the min/max ranges and choose free item quantity.</p>
+                        <p>Note: Enable recursive checkbox if the discounts should be applied in sequential ranges.</p>
+                        <p>Example: Buy 1 get 1, Buy 2 get 2, Buy 3 get 3, and so on.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; margin-top: 50px;">
+                    <label>Min Qty</label>
+                    <input type="number" name="min_qty" value="<?php echo esc_attr($min_qty); ?>" style="width: 60px;" />
+
+                    <label>Max Qty</label>
+                    <input type="number" name="max_qty" value="<?php echo esc_attr($max_qty); ?>" style="width: 60px;" />
+
+                    <label>Free Qty</label>
+                    <input type="number" name="free_qty" value="<?php echo esc_attr($free_qty); ?>" style="width: 60px;" />
+
+                    <label for="discount_type">Discount Type</label>
+                    <select name="discount_type" id="discount_type">
+                        <option value="free" <?php selected($discount_type, 'free'); ?>>Free</option>
+                        <option value="percentage" <?php selected($discount_type, 'percentage'); ?>>Percentage Discount</option>
+                        <option value="fixed" <?php selected($discount_type, 'fixed'); ?>>Fixed Amount</option>
+                    </select>
+
+                    <input type="number" name="discount_value" id="discount_value" value="<?php echo esc_attr($discount_value); ?>" placeholder="Discount value" style="width: 80px; display: <?php echo ($discount_type == 'percentage' || $discount_type == 'fixed') ? 'inline-block' : 'none'; ?>;" />
+
+                    <label>Recursive?</label>
+                    <input type="hidden" name="recursive" value="0" />
+                    <input type="checkbox" name="recursive" value="1" <?php checked($recursive, 1); ?> />
+
+                    <button id="custom-reset-button" type="button" style="background: #0073aa; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Reset</button>
+                </div>
+        </div>
+        <?php } else { 
+            echo "Pls enable this Rule by Toogle Button Status ON";
+        }
+    }
+// Metabox Callback Function End Here
+
+// Save Metabox Data Start Here
+    add_action('save_post', 'bogo_discount_meta_save');
+    function bogo_discount_meta_save($post_id) {
+
+
+        // Verify nonce
+        if (!isset($_POST['bogo_discount_meta_nonce']) || !wp_verify_nonce($_POST['bogo_discount_meta_nonce'], 'bogo_discount_meta_nonce')) {
+            return;
+        }
+
+        // Check user permission
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+
+        // Prevent Auto Save or Quick Edit from modifying the title
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+        
+        if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) {
+            return;
+        }
+
+        // Save only the necessary post meta
+        if (isset($_POST['bogo_discount_type'])) {
+            update_post_meta($post_id, '_bogo_discount_type', sanitize_text_field($_POST['bogo_discount_type']));
+        }
+        if (isset($_POST['wc_bogo_filter_type'])) {
+            update_post_meta($post_id, '_wc_bogo_filter_type', sanitize_text_field($_POST['wc_bogo_filter_type']));
+        }
+        if (isset($_POST['min_qty'])) {
+            update_post_meta($post_id, '_min_qty', intval($_POST['min_qty']));
+        }
+        if (isset($_POST['max_qty'])) {
+            update_post_meta($post_id, '_max_qty', intval($_POST['max_qty']));
+        }
+        if (isset($_POST['free_qty'])) {
+            update_post_meta($post_id, '_free_qty', intval($_POST['free_qty']));
+        }
+        if (isset($_POST['discount_type'])) {
+            update_post_meta($post_id, '_discount_type', sanitize_text_field($_POST['discount_type']));
+        }
+        if (isset($_POST['discount_value'])) {
+            update_post_meta($post_id, '_discount_value', floatval($_POST['discount_value']));
+        }
+        if (isset($_POST['recursive'])) {
+            update_post_meta($post_id, '_recursive', isset($_POST['recursive']) ?  1 : 0);
+        }
+        if (isset($_POST['selected_product_ids'])) {
+            $raw_ids = explode(',', sanitize_text_field($_POST['selected_product_ids']));
+            $valid_ids = [];
+            foreach ($raw_ids as $id) {
+                $post = get_post($id);
+                // Only save if the post is a product
+                if ($post && 'product' === $post->post_type) {
+                    $valid_ids[] = $id;
+                }
+            }
+            update_post_meta($post_id, '_selected_products', implode(',', $valid_ids));
+        }
+
+        // Save selected categories
+        if (isset($_POST['selected_categories'])) {
+            $raw_categories = explode(',', sanitize_text_field($_POST['selected_categories']));
+            $valid_categories = [];
+            foreach ($raw_categories as $cat_id) {
+                $term = get_term($cat_id, 'product_cat');
+                if ($term && !is_wp_error($term)) {
+                    $valid_categories[] = $cat_id;
+                }
+            }
+            update_post_meta($post_id, '_selected_categories', implode(',', $valid_categories));
+        }
+    }
+// Save Metabox Data End Here
+
+// Bogo Discount logic Start Here 
+    add_action('woocommerce_before_calculate_totals', 'apply_bogo_discount');
+    function apply_bogo_discount($cart) {
+        if (is_admin() && !defined('DOING_AJAX')) return;
+
+        $parent_products = [];
+        $bogo_products = [];
+        $bogo_free_items = [];
+
+        // Identifying products eligible for BOGO promotion
+        foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
+            if (!isset($cart_item['bogo_free'])) {
+                $product_id = $cart_item['product_id'];
+                $bogo_rules = get_bogo_rules_for_product($product_id);
+
+                if ($bogo_rules) {
+                    $parent_products[$product_id] = $cart_item['quantity'];
+                    $bogo_products[] = $product_id;
+                }
+            }
+        }
+
+        foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
+            $product_id = $cart_item['product_id'];
+            $bogo_rules = get_bogo_rules_for_product($product_id);
+
+            if ($bogo_rules) {
+                $quantity = $cart_item['quantity'];
+                $min_qty = intval($bogo_rules['min_qty']);
+                $max_qty = intval($bogo_rules['max_qty']);
+                $free_qty = intval($bogo_rules['free_qty']);
+                $discount_type = $bogo_rules['discount_type'];
+                $discount_value = $bogo_rules['discount_value'];
+                $recursive      = $bogo_rules['recursive'] ?? 0;
+
+                if ($quantity >= $min_qty) {
+                    // Adjusting allowed quantity based on max quantity limitation
+                    $allowed_qty = min($quantity, $max_qty);
+
+                    if ($recursive === 1) {                    
+                        // Calculate how many free items to provide
+                        $num_free_items = floor($allowed_qty / $min_qty) * $free_qty;
+
+                    } else {
+                        // Non-recursive: only apply the free items once.
+                        $num_free_items = $free_qty;
+                    }
+
+                    // Check how many free items already exist in the cart
+                    $existing_free_qty = 0;
+                    foreach ($cart->get_cart() as $inner_cart_key => $inner_cart_item) {
+                        if (isset($inner_cart_item['bogo_free']) && $inner_cart_item['product_id'] == $product_id) {
+                            $existing_free_qty += $inner_cart_item['quantity'];
+                        }
+                    }
+
+                    // Based on the calculated free items and existing ones, add new free items if needed
+                    $items_to_add = $num_free_items - $existing_free_qty;
+                    if ($items_to_add > 0) {
+                        // Add free products but respect the max quantity
+                        $cart->add_to_cart($product_id, $items_to_add, 0, array(), array('bogo_free' => true));
+                    }
+
+                    // Apply discount if necessary based on type
+                    if ($discount_value > 0) {
+                        if ($discount_type === 'fixed') {
+                            // Apply fixed discount logic
+                            $cart->add_fee(__('BOGO Fixed Amount', 'your-text-domain'), + ($discount_value * $num_free_items), false);
+                        } elseif ($discount_type === 'percentage') {
+                            // Apply percentage discount logic
+                            $discount = (($cart_item['data']->get_price()) *  $discount_value / 100) * $num_free_items;
+                            $cart->add_fee(__('BOGO Percentage Discount', 'your-text-domain'), -$discount , false);
+                        }
+                    }
+
+                    $bogo_free_items[$product_id] = $num_free_items;
+                }
+            }
+        }
+
+        // Clean up free products if needed
+        foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
+            if (isset($cart_item['bogo_free']) && $cart_item['bogo_free'] === true) {
+                $parent_id = $cart_item['product_id'];
+                if (!isset($parent_products[$parent_id]) || !in_array($parent_id, $bogo_products)) {
+                    $cart->remove_cart_item($cart_item_key);
+                } else {
+                    $parent_qty = $parent_products[$parent_id];
+                    $bogo_rules = get_bogo_rules_for_product($parent_id);
+                    if ($bogo_rules) {
+                        $min_qty = intval($bogo_rules['min_qty']);                    
+                        $free_qty = intval($bogo_rules['free_qty']);
+                        $new_free_qty = floor($parent_qty / $min_qty) * $free_qty;
+
+                        // Adjust free item quantity if necessary
+                        if ($cart_item['quantity'] != $new_free_qty) {
+                            $cart->set_quantity($cart_item_key, $new_free_qty);
+                        }
+                    }
+                }
+            }
+        }
+    }
+// Bogo Discount logic End Here 
+
+// Ensure free product price is set to zero Start Here
+    add_action('woocommerce_cart_calculate_fees', function() {
+        foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+            if (isset($cart_item['bogo_free']) && $cart_item['bogo_free'] === true) {
+                $cart_item['data']->set_price(0);
+            }
+        }
+    });
+// Ensure free product price is set to zero End Here
+
+// Function to retrieve BOGO rules for a product Start Here
+    function get_bogo_rules_for_product($product_id) {
+        $args = array(
+            'post_type' => 'wc_bogo',
+            'meta_query' => array(
+                array(
+                    'key' => '_selected_products', 
+                    'value' => (string)$product_id,
+                    'compare' => 'LIKE',
+                )
+            )
+        );
+
+        $query = new WP_Query($args);
+
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+
+                // Check if the BOGO discount rule is enabled
+                $status = get_post_meta(get_the_ID(), '_bogo_deal_status', true);
+                if ($status !== 'yes') {
+                    // Skip this rule if it's not enabled
+                    continue;
+                }
+
+                $bogo_rules = array(
+                    'min_qty' => intval(get_post_meta(get_the_ID(), '_min_qty', true)),
+                    'free_qty' => intval(get_post_meta(get_the_ID(), '_free_qty', true)),
+                    'max_qty' => intval(get_post_meta(get_the_ID(), '_max_qty', true)),
+                    'discount_type' => get_post_meta(get_the_ID(), '_discount_type', true), // New
+                    'discount_value' => floatval(get_post_meta(get_the_ID(), '_discount_value', true)), // New
+                );
+
+                wp_reset_postdata();
+                return $bogo_rules;
+            }
+        }
+
+        return false;
+    }
+// Function to retrieve BOGO rules for a product End Here
+
+// Show 'Free' instead of price for free items Start Here
+    add_filter('woocommerce_cart_item_price', 'display_free_product_text', 10, 3);
+    function display_free_product_text($price, $cart_item, $cart_item_key) {
+        if (isset($cart_item['bogo_free']) && $cart_item['bogo_free'] === true) {
+            return __('Free!', 'your-text-domain');
+        }
+        return $price;
+    }
+// Show 'Free' instead of price for free items End Here
+
+
+
+
+
+Hello Sir, F.Y.I 
+ 
+1.) Module 1 
+    - Buy X and Get X 
+    - Added Repeater Fields issue categories and tag not working
+    - Fixed logic on saving meta_value of specific rule
+    - debug the issue and R & D Done 
+
+<< Optimized the code 
+<< tested the functionality of module 1  
+
+<< IN-Progress  
