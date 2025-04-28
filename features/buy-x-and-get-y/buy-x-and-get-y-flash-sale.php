@@ -1,10 +1,14 @@
 <?php 
 
 //  Flash Sales For Buy X and Get Y code goes here.
-
 add_filter('woocommerce_sale_flash', 'custom_bogo_flash_message', 20, 3);
 function custom_bogo_flash_message($original, $post, $product) {
     if ('product' !== $post->post_type) return $original;
+
+    // Bail if feature is off
+    // if ( 'yes' !== get_option( 'enable_flash_sal_buy_x_and_y', 'no' ) ) {
+    //     return $original;
+    // }
 
     $bogo_posts = get_posts([
         'post_type' => 'wc_bogo',
@@ -68,7 +72,7 @@ function custom_bogo_flash_message($original, $post, $product) {
         <div class="bogo-flash-sale" style="border: 2px dashed #e63946; padding: 8px; background: #fff3f3; margin-bottom: 10px;">
             <strong>Buy this and get:</strong><br>
             <img src="<?php echo esc_url($bonus_img); ?>" style="width: 50px; height: auto; vertical-align: middle;" />
-            <span><?php echo esc_html($bonus_name); ?> - <strong><?php echo esc_html($discount_text); ?></strong></span>
+            <span><?php echo esc_html($bonus_name); ?> - <strong><?php echo esc_html($discount_text); ?></strong> </span>
         </div>
          <script type="text/javascript">
             jQuery(document).ready(function($) {

@@ -1,0 +1,242 @@
+
+.awdr-discount-container {
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+}
+.awdr-discount-heading, .awdr-discount-content {
+width: 50%;
+}
+/* Header Row */
+.wc-bogo-settings-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: #f0f7ff; /* Light blue background */
+padding: 15px;
+border: 1px solid #ddd;
+border-radius: 5px;
+margin-bottom: 20px;
+}
+
+/* Tabs */
+.wc-bogo-tabs {
+display: flex;
+}
+.wc-bogo-tabs .nav-tab {
+background: #e3efff;
+color: #004085;
+margin-right: 10px;
+border-radius: 5px;
+padding: 8px 15px;
+transition: background 0.3s;
+}
+.wc-bogo-tabs .nav-tab-active {
+background: #cce5ff;
+font-weight: bold;
+}
+.wc-bogo-tabs .nav-tab:hover {
+background: #bfdfff;
+}
+
+Save Button 
+.wc-bogo-save-btn {
+background: #ffb6c1;
+color: #fff;
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+font-size: 16px;
+cursor: pointer;
+transition: background 0.3s;
+}
+.wc-bogo-save-btn:hover {
+background: #ff94a5;
+}
+
+.save-container {
+position: relative;
+display: inline-block;
+}
+
+.checkmark {
+position: absolute;
+top: -50px;
+left: 50%;
+transform: translateX(-50%);
+font-size: 24px;
+color: green;
+opacity: 0;
+transition: transform 0.6s ease-out, opacity 0.6s;
+}
+
+.checkmark.show {
+transform: translateX(-50%) translateY(60px);
+opacity: 1;
+}
+
+.common-container {
+text-align: center;
+/*padding: 20px;*/
+}
+
+.common-container i {
+font-size: 40px;
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+.popup {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 900px;
+    height: 600px;
+    text-align: center;
+    position: relative;
+}
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 50%;
+}
+.btn-primary {
+    padding: 10px 15px;
+    background: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+a {
+color: #ffffff;
+transition-property: border, background, color;
+transition-duration: .05s;
+transition-timing-function: ease-in-out;
+}
+
+a:hover {
+color: #ffffff;
+
+}
+
+
+/* Setting page tab css start here */
+
+ .vertical-tabs-container {
+        display: flex;
+        min-height: 300px;
+    }
+    .vertical-tab-menu {
+        width: 200px;
+        border-right: 1px solid #ccc;
+        background: #f7f7f7;
+    }
+    .vertical-tab-menu button {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+    }
+    .vertical-tab-menu button.active {
+        background-color: #fff;
+        border-left: 4px solid #007cba;
+        font-weight: bold;
+    }
+    .vertical-tab-content {
+        flex: 1;
+        padding: 20px;
+        background: #fff;
+    }
+    .tab-pane {
+        display: none;
+    }
+    .tab-pane.active {
+        display: block;
+    }
+
+
+/* Setting page tab css End here */
+
+
+/* Flash Sales Toggle setting page start here */
+ .bogo-toggle-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .bogo-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 28px;
+    }
+
+    .bogo-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .bogo-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+    }
+
+    .bogo-slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+    }
+
+    .bogo-switch input:checked + .bogo-slider {
+        background-color: #007cba;
+    }
+
+    .bogo-switch input:checked + .bogo-slider:before {
+        transform: translateX(22px);
+    }
+/* Flash Sales Toggle setting page End here */
+
+/* Flash sale setting css goes here */
+
+.tab-pane.active {
+    text-align: left;
+}
+
+/* Flash sale setting css goes here */

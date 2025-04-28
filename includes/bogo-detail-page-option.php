@@ -497,7 +497,6 @@
                         <p>Example: Buy 1 get 1, Buy 2 get 2, Buy 3 get 3, and so on.</p>
                     </div>
                 </div>
-
                        
                 <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; margin-top: 50px;">
                         <label>Min Qty</label>

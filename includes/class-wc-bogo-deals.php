@@ -27,8 +27,6 @@ function wc_bogo_register_meta_fields() {
 }
 add_action('init', 'wc_bogo_register_meta_fields');
 
-
-
 // BOGO Scope Field in Admin Meta Box (with checkboxes)
 function wc_bogo_scope_meta_box($post) {
     // Get selected bogo_scope values
@@ -56,7 +54,6 @@ add_action('add_meta_boxes_wc_bogo', function() {
     add_meta_box('bogo_scope_meta_box', __('BOGO Deal Scope', 'wc-bogo'), 'wc_bogo_scope_meta_box', 'wc_bogo', 'normal', 'high');
 });
 
-
 // Save bogo_scope and initialize bogo_usage_count
 function wc_bogo_save_meta($post_id) {
     // Verify this is the correct post type and check for autosave
@@ -77,7 +74,6 @@ function wc_bogo_save_meta($post_id) {
     }
 }
 add_action('save_post_wc_bogo', 'wc_bogo_save_meta');
-
 
 // Add columns for bogo_scope and bogo_usage_count in the admin list view
 add_filter('manage_wc_bogo_posts_columns', function($columns) {
@@ -103,7 +99,6 @@ add_action('manage_wc_bogo_posts_custom_column', function($column, $post_id) {
         echo intval($usage); // Show the usage count
     }
 }, 10, 2);
-
 
 // Increment the usage count for a BOGO deal
 function wc_bogo_increment_usage_count($bogo_id) {
