@@ -1,10 +1,44 @@
 <?php 
-
 // bogo-plugin-setting-page.php
 
-//  Tabbing Section on the Setting Page start here
+// Tabbing Section on the Setting Page start here
 	function wc_bogo_render_settings_page() {
 	    $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'pricing_rules';
+
+		 // ─── Load ALL your Tab 2 options into variables ───
+		 $enable_flash_sal_buy_x_and_x    = get_option( 'enable_flash_sal_buy_x_and_x', 'no' );
+		 $buy_x_get_x_free_message        = get_option( 'buy_x_get_x_free_message', '' );
+		 $buy_x_get_x_free_bg_color       = get_option( 'buy_x_get_x_free_bg_color', '#ffffff' );
+		 $buy_x_get_x_free_bg_code        = get_option( 'buy_x_get_x_free_bg_code', '' );
+		 $buy_x_get_x_free_font_color     = get_option( 'buy_x_get_x_free_font_color', '#ffffff' );
+		 $buy_x_get_x_free_font_code      = get_option( 'buy_x_get_x_free_font_code', '' );
+		 $buy_x_get_x_percentage_message  = get_option( 'buy_x_get_x_percentage_message', '' );
+		 $buy_x_get_x_percentage_bg_color = get_option( 'buy_x_get_x_percentage_bg_color', '#ffffff' );
+		 $buy_x_get_x_percentage_bg_code  = get_option( 'buy_x_get_x_percentage_bg_code', '' );
+		 $buy_x_get_x_percentage_font_color = get_option( 'buy_x_get_x_percentage_font_color', '#ffffff' );
+		 $buy_x_get_x_percentage_font_code  = get_option( 'buy_x_get_x_percentage_font_code', '' );
+		 $buy_x_get_x_fixed_message       = get_option( 'buy_x_get_x_fixed_message', '' );
+		 $buy_x_get_x_fixed_bg_color      = get_option( 'buy_x_get_x_fixed_bg_color', '#ffffff' );
+		 $buy_x_get_x_fixed_bg_code       = get_option( 'buy_x_get_x_fixed_bg_code', '' );
+		 $buy_x_get_x_fixed_font_color    = get_option( 'buy_x_get_x_fixed_font_color', '#ffffff' );
+		 $buy_x_get_x_fixed_font_code     = get_option( 'buy_x_get_x_fixed_font_code', '' );
+	 
+		 $enable_flash_sal_buy_x_and_y    = get_option( 'enable_flash_sal_buy_x_and_y', 'no' );
+		 $buy_x_get_y_free_message        = get_option( 'buy_x_get_y_free_message', '' );
+		 $buy_x_get_y_free_bg_color       = get_option( 'buy_x_get_y_free_bg_color', '#ffffff' );
+		 $buy_x_get_y_free_bg_code        = get_option( 'buy_x_get_y_free_bg_code', '' );
+		 $buy_x_get_y_free_font_color     = get_option( 'buy_x_get_y_free_font_color', '#ffffff' );
+		 $buy_x_get_y_free_font_code      = get_option( 'buy_x_get_y_free_font_code', '' );
+		 $buy_x_get_y_percentage_message  = get_option( 'buy_x_get_y_percentage_message', '' );
+		 $buy_x_get_y_percentage_bg_color = get_option( 'buy_x_get_y_percentage_bg_color', '#ffffff' );
+		 $buy_x_get_y_percentage_bg_code  = get_option( 'buy_x_get_y_percentage_bg_code', '' );
+		 $buy_x_get_y_percentage_font_color = get_option( 'buy_x_get_y_percentage_font_color', '#ffffff' );
+		 $buy_x_get_y_percentage_font_code  = get_option( 'buy_x_get_y_percentage_font_code', '#ffffff' );
+		 $buy_x_get_y_fixed_message       = get_option( 'buy_x_get_y_fixed_message', '#ffffff' );
+		 $buy_x_get_y_fixed_bg_color      = get_option( 'buy_x_get_y_fixed_bg_color', '#ffffff' );
+		 $buy_x_get_y_fixed_bg_code       = get_option( 'buy_x_get_y_fixed_bg_code', '#ffffff' );
+		 $buy_x_get_y_fixed_font_color    = get_option( 'buy_x_get_y_fixed_font_color', '#ffffff' );
+		 $buy_x_get_y_fixed_font_code     = get_option( 'buy_x_get_y_fixed_font_code', '#ffffff' );
 	    ?>
 	    <div class="wrap">
 	        <h1><?php esc_html_e('BOGO Settings', 'wc-bogo'); ?></h1>
@@ -20,16 +54,7 @@
 	                <a href="<?php echo esc_url(add_query_arg('tab', 'settings')); ?>" class="nav-tab <?php echo ($active_tab === 'settings') ? 'nav-tab-active' : ''; ?>">
 	                    <?php esc_html_e('Settings', 'wc-bogo'); ?>
 	                </a>
-	            </div>
-
-	            <div class="save-container">
-				    <button type="submit" class="button button-primary" id="save-button">
-				        <?php esc_html_e('Save Changes', 'wc-bogo'); ?>
-				    </button>
-				    <span class="checkmark">✔</span>
-				</div>
-
-	            
+	            </div>	            
 	        </div>
 
 	        <div class="wc-bogo-settings-content">
@@ -52,24 +77,36 @@
 						    <div id="settings-content" class="common-container">
 						        <div class="vertical-tabs-container">
 						            <div class="vertical-tab-menu">
-						                <button class="tab-link active" data-tab="tab1">General</button>
-						                <button class="tab-link" data-tab="tab2">Flash Sales Setting</button>
+						                <!-- <button class="tab-link active" data-tab="tab1">General</button> -->
+						                <button class="tab-link active" data-tab="tab2">Flash Sales Setting</button>
 						                <button class="tab-link" data-tab="tab3">Discounts</button>
 						                <button class="tab-link" data-tab="tab4">Rules</button>
 						                <button class="tab-link" data-tab="tab5">Advanced</button>
 						            </div>
 
 						            <div class="vertical-tab-content">
-						                <div id="tab1" class="tab-pane active">
+						                <div id="tab1" class="tab-pane">
 						                    <p>General settings go here.</p>
 						                </div>
-						                <div id="tab2" class="tab-pane">
-						                    <!-- <p>Pricing-related settings go here.</p> -->
-						                    <?php require_once WOCOMMERCE_BOGO_PLUGIN . '/features/settings/flash-sales-options.php'; ?>
-						                </div>
+										<div id="tab2" class="tab-pane active">
+											<?php include WOCOMMERCE_BOGO_PLUGIN . 'features/settings/message-fields-template.php'; ?>
+										</div>									
 						                <div id="tab3" class="tab-pane">
-						                    <p>Discount options go here.</p>
-						                </div>
+											<p><?php esc_html_e('Discount options go here.', 'wc-bogo'); ?></p>
+
+											<label for="discount_based_on">
+												<?php esc_html_e('Choose Discount Type:', 'wc-bogo'); ?>
+												<select id="discount_based_on" name="discount_based_on">
+													<option value="regular_price"><?php esc_html_e('Regular Price', 'wc-bogo'); ?></option>
+													<option value="sales_price"><?php esc_html_e('Sales Price', 'wc-bogo'); ?></option>
+												</select>
+											</label>
+
+											<div id="regular_price_options" class="discount-options">
+												<?php include WOCOMMERCE_BOGO_PLUGIN . 'features/settings/cart-discount-regular-price.php'; ?>
+											</div>
+										</div>
+
 						                <div id="tab4" class="tab-pane">
 						                    <p>Rule configuration goes here.</p>
 						                </div>
@@ -106,4 +143,65 @@
 
 	    <?php
 	}
-//  Tabbing Section on the Setting Page End here
+// Tabbing Section on the Setting Page End here
+
+// Save Flash Sale Tab 2 Settings Function start here 
+	add_action( 'admin_post_save_flash_sale_settings', function() {
+		if (
+			! isset( $_POST['wc_bogo_flash_sale_nonce'] ) ||
+			! wp_verify_nonce( $_POST['wc_bogo_flash_sale_nonce'], 'wc_bogo_flash_sale_save' )
+		) {
+			wp_die( esc_html__( 'Security check failed', 'wc-bogo' ) );
+		}
+
+		// ✔️ Buy X → X toggle
+		update_option( 'enable_flash_sal_buy_x_and_x', isset( $_POST['enable_flash_sal_buy_x_and_x'] ) ? 'yes' : 'no' );
+
+
+		// ✔️ Buy X → X fields
+		update_option( 'buy_x_get_x_free_message', sanitize_text_field( $_POST['buy_x_get_x_free_message'] ?? '' ) );
+		update_option( 'buy_x_get_x_free_bg_color', sanitize_hex_color( $_POST['buy_x_get_x_free_bg_color'] ?? '' ) );
+		update_option( 'buy_x_get_x_free_bg_code', sanitize_text_field( $_POST['buy_x_get_x_free_bg_code'] ?? '' ) );
+		update_option( 'buy_x_get_x_free_font_color', sanitize_hex_color( $_POST['buy_x_get_x_free_font_color'] ?? '' ) );
+		update_option( 'buy_x_get_x_free_font_code', sanitize_text_field( $_POST['buy_x_get_x_free_font_code'] ?? '' ) );
+
+		update_option( 'buy_x_get_x_percentage_message', sanitize_text_field( $_POST['buy_x_get_x_percentage_message'] ?? '' ) );
+		update_option( 'buy_x_get_x_percentage_bg_color', sanitize_hex_color( $_POST['buy_x_get_x_percentage_bg_color'] ?? '' ) );
+		update_option( 'buy_x_get_x_percentage_bg_code', sanitize_text_field( $_POST['buy_x_get_x_percentage_bg_code'] ?? '' ) );
+		update_option( 'buy_x_get_x_percentage_font_color', sanitize_hex_color( $_POST['buy_x_get_x_percentage_font_color'] ?? '' ) );
+		update_option( 'buy_x_get_x_percentage_font_code', sanitize_text_field( $_POST['buy_x_get_x_percentage_font_code'] ?? '' ) );
+
+		update_option( 'buy_x_get_x_fixed_message', sanitize_text_field( $_POST['buy_x_get_x_fixed_message'] ?? '' ) );
+		update_option( 'buy_x_get_x_fixed_bg_color', sanitize_hex_color( $_POST['buy_x_get_x_fixed_bg_color'] ?? '' ) );
+		update_option( 'buy_x_get_x_fixed_bg_code', sanitize_text_field( $_POST['buy_x_get_x_fixed_bg_code'] ?? '' ) );
+		update_option( 'buy_x_get_x_fixed_font_color', sanitize_hex_color( $_POST['buy_x_get_x_fixed_font_color'] ?? '' ) );
+		update_option( 'buy_x_get_x_fixed_font_code', sanitize_text_field( $_POST['buy_x_get_x_fixed_font_code'] ?? '' ) );
+
+		// ✔️ Buy X → Y toggle
+		update_option( 'enable_flash_sal_buy_x_and_y', isset( $_POST['enable_flash_sal_buy_x_and_y'] ) ? 'yes' : 'no' );
+
+		// ✔️ Buy X → Y fields
+		update_option( 'buy_x_get_y_free_message', sanitize_text_field( $_POST['buy_x_get_y_free_message'] ?? '' ) );
+		update_option( 'buy_x_get_y_free_bg_color', sanitize_hex_color( $_POST['buy_x_get_y_free_bg_color'] ?? '' ) );
+		update_option( 'buy_x_get_y_free_bg_code', sanitize_text_field( $_POST['buy_x_get_y_free_bg_code'] ?? '' ) );
+		update_option( 'buy_x_get_y_free_font_color', sanitize_hex_color( $_POST['buy_x_get_y_free_font_color'] ?? '' ) );
+		update_option( 'buy_x_get_y_free_font_code', sanitize_text_field( $_POST['buy_x_get_y_free_font_code'] ?? '' ) );
+
+		update_option( 'buy_x_get_y_percentage_message', sanitize_text_field( $_POST['buy_x_get_y_percentage_message'] ?? '' ) );
+		update_option( 'buy_x_get_y_percentage_bg_color', sanitize_hex_color( $_POST['buy_x_get_y_percentage_bg_color'] ?? '' ) );
+		update_option( 'buy_x_get_y_percentage_bg_code', sanitize_text_field( $_POST['buy_x_get_y_percentage_bg_code'] ?? '' ) );
+		update_option( 'buy_x_get_y_percentage_font_color', sanitize_hex_color( $_POST['buy_x_get_y_percentage_font_color'] ?? '' ) );
+		update_option( 'buy_x_get_y_percentage_font_code', sanitize_text_field( $_POST['buy_x_get_y_percentage_font_code'] ?? '' ) );
+
+		update_option( 'buy_x_get_y_fixed_message', sanitize_text_field( $_POST['buy_x_get_y_fixed_message'] ?? '' ) );
+		update_option( 'buy_x_get_y_fixed_bg_color', sanitize_hex_color( $_POST['buy_x_get_y_fixed_bg_color'] ?? '' ) );
+		update_option( 'buy_x_get_y_fixed_bg_code', sanitize_text_field( $_POST['buy_x_get_y_fixed_bg_code'] ?? '' ) );
+		update_option( 'buy_x_get_y_fixed_font_color', sanitize_hex_color( $_POST['buy_x_get_y_fixed_font_color'] ?? '' ) );
+		update_option( 'buy_x_get_y_fixed_font_code', sanitize_text_field( $_POST['buy_x_get_y_fixed_font_code'] ?? '' ) );
+
+		// Redirect back to your settings page
+		wp_redirect( admin_url( 'admin.php?page=wc-bogo-settings&tab=settings&saved=1' ) );
+		exit;
+	});
+// Save Flash Sale Tab 2 Settings Function End here 
+

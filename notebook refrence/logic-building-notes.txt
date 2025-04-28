@@ -1,25 +1,29 @@
-Test
+Hello Sir, F.Y.I 
+
+Module 1 & 2 :- 
+    1.) Flash Sales Setting Option has been dynamic 
+    2.) Buy X and Get X options added
+    3.) Buy X and Get Y option has added on flash setting Tab
+    4.) Font Color Picker & Bg Color Option has added
+    5.) shortcode based textual has been create [buy-product] [get-product], [min-quanity] [free-quanity]
+    6.) Working on Flash sale & discount global Setting for Cart Adjustment
+    7.) Review done all existing functionality works proper
+
+<< IN-Progress 
+
 
 Hello Sir, F.Y.I 
 
 Module 1 :- 
-1.) Buy X and Get X Cart
-    - Buy X and Get X Cart Discount has been FIXED 
-    - Flash Sale Banner has been Added 
-    ss :- https://prnt.sc/joaj18lu6C3N
-    - tested the functionality using multiple test case & combination
-<< DONE 
+1.) improve the code for all threee module Buy X and Get X , Buy X and Get Y & Cart Adjustment
+2.) tested bogo plugin on mulitple themes
+3.) Bogo Setting page created 
+4.) Cart discount conflict on discount on cart page has been fixed 
+5.) tested the functionality in multiple test cases
+6.) Working on Flash sale & discount global Setting
 
-2.) Cart Adjustment Discount 
-    - cart discount completed 
-    - testing functionality & scheduling 
-    - added via coupon to cart
-    SS :- https://prnt.sc/FOD4up0cW8O7
-<< DONE 
+<< IN-progress 
 
-3.) Buy X and Get Y 
-    - working on html and save meta fields
-<< In-Progress 
 
 
 percentage example 
