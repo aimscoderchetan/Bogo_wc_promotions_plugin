@@ -17,6 +17,11 @@
     <div id="buy_x_get_x_fields" class="bogo-fields">
         <h2>Message Guidelines (Buy X Get X)</h2>
 
+        <ul>
+            <li> <strong>[buy-quantity] - Enter Min quanity which you need to store  </strong></li>
+            <li> <strong>[free-quantity] - Enter Free quanity which you need to store </strong> </li>
+        </ul>
+
         <!-- FREE Message -->
         <div style="display: flex; gap: 20px; align-items: flex-start;">
             <div style="flex: 1;">
@@ -94,8 +99,17 @@
         </label>
     </div>
 
+
+        
+        
+
     <div id="buy_x_get_y_fields" class="bogo-fields">
         <h2>Message Guidelines (Buy X Get Y)</h2>
+
+        <ul>
+            <li> <strong>[min_qty] - Enter Min product quanity which you need to store  </strong></li>
+            <li> <strong>[free_qty] - Enter Free product quantity  which you need to store </strong> </li>
+        </ul>
 
         <!-- FREE -->
         <div style="display: flex; gap: 20px; align-items: flex-start;">
@@ -161,7 +175,8 @@
             </div>
         </div>
     </div>
-
+    <br>
+    <br>
     <div class="save-container">
         <button type="submit" class="button button-primary">
             <?php esc_html_e( 'Save Flash Sale Settings', 'wc-bogo' ); ?>
