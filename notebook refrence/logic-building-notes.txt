@@ -1,3 +1,15 @@
+Hello , F.Y.I
+ 
+Module 3 :- 
+    1.) Flash Sales Setting Option has been completed 
+    2.) Cart Discount global setting logic R & D
+    3.) Saved the value of in cart discount module & cart & checkout page
+    4.) Unit testing Done Self review done.
+ 
+<< In-Progress  
+
+
+
 Hello Sir, F.Y.I 
 
 Module 1 & 2 :- 
