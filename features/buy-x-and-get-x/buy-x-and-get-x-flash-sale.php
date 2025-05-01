@@ -31,7 +31,7 @@
 				$bg_color = get_option( 'buy_x_get_x_percentage_bg_color', '#ff0000' );
 				$font_color = get_option( 'buy_x_get_x_percentage_font_color', '#ffffff' );
 			} elseif ( $type === 'fixed' && $val > 0 ) {
-				$template = get_option( 'buy_x_get_x_fixed_message', 'SALE: buy [buy-quantity] get [free-quantity] — ₹[discount-value] off' );
+				$template = get_option( 'buy_x_get_x_fixed_message', 'SALE: buy [buy-quantity] get [free-quantity] — $[discount-value] off' );
 				$bg_color = get_option( 'buy_x_get_x_fixed_bg_color', '#ff0000' );
 				$font_color = get_option( 'buy_x_get_x_fixed_font_color', '#ffffff' );
 			} else {
@@ -52,7 +52,7 @@
 				$bg_color = get_option( 'buy_x_get_x_disabled_percentage_bg_color', '#777777' );
 				$font_color = get_option( 'buy_x_get_x_disabled_percentage_font_color', '#ffffff' );
 			} elseif ( $type === 'fixed' && $val > 0 ) {
-				$template = get_option( 'buy_x_get_x_disabled_fixed_message', 'Deal: Buy [buy-quantity], Get [free-quantity] — Save ₹[discount-value]!' );
+				$template = get_option( 'buy_x_get_x_disabled_fixed_message', 'Deal: Buy [buy-quantity], Get [free-quantity] — Save $[discount-value]!' );
 				$bg_color = get_option( 'buy_x_get_x_disabled_fixed_bg_color', '#777777' );
 				$font_color = get_option( 'buy_x_get_x_disabled_fixed_font_color', '#ffffff' );
 			} else {
