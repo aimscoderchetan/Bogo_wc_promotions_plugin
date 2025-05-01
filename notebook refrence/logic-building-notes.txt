@@ -1,3 +1,16 @@
+Hello Sir, F.Y.I
+ 
+Module 3 :- 
+    1.) Flash Sales Setting Option has been completed 
+    2.) Cart Discount global setting has been completed 
+    SS :- https://tinyurl.com/2y45vgpd , https://tinyurl.com/2aa9yfzx
+    3.) Saved the value of in cart discount module & cart & checkout page
+    4.) Unit testing all feature Self review done.
+    5.) all module code has structure change asper sales price and regular price
+
+<< In-Progress  
+
+
 Hello , F.Y.I
  
 Module 3 :- 

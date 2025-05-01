@@ -17,9 +17,13 @@
     </label>
 
     <br><br>
+    <label><strong> Minimum price to avial Discount </strong>  </label>
+    <input type="number" name="min_price_for_discount" value="<?php echo esc_attr($min_price_for_discount); ?>" style="width: 60px;" />
+    <br><br>
+   
 
     <div class="save-container">
-        <button type="submit" class="button button-primary">
+        <button type="submit" class="button button-primary tab-3">
             <?php esc_html_e( 'Save Flash Sale Settings', 'wc-bogo' ); ?>
         </button>
         <button type="reset" class="button" style="margin-left: 10px;">

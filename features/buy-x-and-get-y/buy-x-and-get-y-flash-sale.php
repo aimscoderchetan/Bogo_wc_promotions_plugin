@@ -127,7 +127,7 @@ function custom_bogo_flash_message($original, $post, $product) {
             // return $original; // Return the Woo default flash (e.g., “Sale!”)
             ?>
            <div class="bogo-flash-sale" style="border: 2px dashed #e63946; padding: 8px; background: #fff3f3; margin-bottom: 10px;">
-            <strong>Buy this product and get:</strong><br>
+            <strong>Buy this <?php echo $min_qty;?> product and get: <?php echo $free_qty;?></strong><br>
             <img src="<?php echo esc_url($bonus_img); ?>" style="width: 50px; height: auto; vertical-align: middle;" />
             <span><?php echo esc_html($bonus_name); ?> - <strong><?php echo esc_html($discount_text); ?></strong> </span>
         </div>

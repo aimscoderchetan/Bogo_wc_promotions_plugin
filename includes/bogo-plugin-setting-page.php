@@ -42,6 +42,8 @@
 
 
 		 $selected_discount_type = get_option( 'wc_bogo_discount_based_on', 'regular_price' );
+		 $min_price_for_discount = get_option( 'min_price_for_discount');
+		 
 	    ?>
 	    <div class="wrap">
 	        <h1><?php esc_html_e('BOGO Settings', 'wc-bogo'); ?></h1>
@@ -83,7 +85,7 @@
 						                <!-- <button class="tab-link active" data-tab="tab1">General</button> -->
 						                <button class="tab-link active" data-tab="tab2">Flash Sales Setting</button>
 						                <button class="tab-link" data-tab="tab3">Discounts</button>
-						                <button class="tab-link" data-tab="tab4">Rules</button>
+						                <button class="tab-link" data-tab="tab4">Exclusions</button>
 						                <button class="tab-link" data-tab="tab5">Advanced</button>
 						            </div>
 
@@ -99,7 +101,7 @@
 												
 										</div>
 						                <div id="tab4" class="tab-pane">
-						                    <p>Rule configuration goes here.</p>
+											<?php include WOCOMMERCE_BOGO_PLUGIN . 'features\settings\excusions-on-rule.php'; ?>
 						                </div>
 						                <div id="tab5" class="tab-pane">
 						                    <p>Advanced configurations go here.</p>
@@ -146,58 +148,132 @@
 		}
 
 		// ✔️ Buy X → X toggle
-		update_option( 'enable_flash_sal_buy_x_and_x', isset( $_POST['enable_flash_sal_buy_x_and_x'] ) ? 'yes' : 'no' );
+		// if ( isset($_POST['enable_flash_sal_buy_x_and_x']) ) {
+			update_option( 'enable_flash_sal_buy_x_and_x', isset( $_POST['enable_flash_sal_buy_x_and_x'] ) ? 'yes' : 'no' );
+		// }
 
 
 		// ✔️ Buy X → X fields
-		update_option( 'buy_x_get_x_free_message', sanitize_text_field( $_POST['buy_x_get_x_free_message'] ?? '' ) );
-		update_option( 'buy_x_get_x_free_bg_color', sanitize_hex_color( $_POST['buy_x_get_x_free_bg_color'] ?? '' ) );
-		update_option( 'buy_x_get_x_free_bg_code', sanitize_text_field( $_POST['buy_x_get_x_free_bg_code'] ?? '' ) );
-		update_option( 'buy_x_get_x_free_font_color', sanitize_hex_color( $_POST['buy_x_get_x_free_font_color'] ?? '' ) );
-		update_option( 'buy_x_get_x_free_font_code', sanitize_text_field( $_POST['buy_x_get_x_free_font_code'] ?? '' ) );
+		if ( isset($_POST['buy_x_get_x_free_message']) ) {
+			update_option( 'buy_x_get_x_free_message', sanitize_text_field( $_POST['buy_x_get_x_free_message'] ?? '' ) );
+		}
 
+		if ( isset($_POST['buy_x_get_x_free_bg_color']) ) {
+			update_option( 'buy_x_get_x_free_bg_color', sanitize_hex_color( $_POST['buy_x_get_x_free_bg_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_free_bg_code']) ) {
+			update_option( 'buy_x_get_x_free_bg_code', sanitize_text_field( $_POST['buy_x_get_x_free_bg_code'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_free_font_color']) ) {
+			update_option( 'buy_x_get_x_free_font_color', sanitize_hex_color( $_POST['buy_x_get_x_free_font_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_free_font_code']) ) {
+			update_option( 'buy_x_get_x_free_font_code', sanitize_text_field( $_POST['buy_x_get_x_free_font_code'] ?? '' ) );
+		}
+
+		if ( isset($_POST['buy_x_get_x_percentage_message']) ) {
 		update_option( 'buy_x_get_x_percentage_message', sanitize_text_field( $_POST['buy_x_get_x_percentage_message'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_percentage_bg_color']) ) {
 		update_option( 'buy_x_get_x_percentage_bg_color', sanitize_hex_color( $_POST['buy_x_get_x_percentage_bg_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_percentage_bg_code']) ) {
 		update_option( 'buy_x_get_x_percentage_bg_code', sanitize_text_field( $_POST['buy_x_get_x_percentage_bg_code'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_percentage_font_color']) ) {
 		update_option( 'buy_x_get_x_percentage_font_color', sanitize_hex_color( $_POST['buy_x_get_x_percentage_font_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_percentage_font_code']) ) {
 		update_option( 'buy_x_get_x_percentage_font_code', sanitize_text_field( $_POST['buy_x_get_x_percentage_font_code'] ?? '' ) );
+		}
 
-		update_option( 'buy_x_get_x_fixed_message', sanitize_text_field( $_POST['buy_x_get_x_fixed_message'] ?? '' ) );
-		update_option( 'buy_x_get_x_fixed_bg_color', sanitize_hex_color( $_POST['buy_x_get_x_fixed_bg_color'] ?? '' ) );
-		update_option( 'buy_x_get_x_fixed_bg_code', sanitize_text_field( $_POST['buy_x_get_x_fixed_bg_code'] ?? '' ) );
-		update_option( 'buy_x_get_x_fixed_font_color', sanitize_hex_color( $_POST['buy_x_get_x_fixed_font_color'] ?? '' ) );
-		update_option( 'buy_x_get_x_fixed_font_code', sanitize_text_field( $_POST['buy_x_get_x_fixed_font_code'] ?? '' ) );
+		if ( isset($_POST['buy_x_get_x_fixed_message']) ) {
+			update_option( 'buy_x_get_x_fixed_message', sanitize_text_field( $_POST['buy_x_get_x_fixed_message'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_fixed_bg_color']) ) {
+			update_option( 'buy_x_get_x_fixed_bg_color', sanitize_hex_color( $_POST['buy_x_get_x_fixed_bg_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_fixed_bg_code']) ) {
+			update_option( 'buy_x_get_x_fixed_bg_code', sanitize_text_field( $_POST['buy_x_get_x_fixed_bg_code'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_fixed_font_color']) ) {
+			update_option( 'buy_x_get_x_fixed_font_color', sanitize_hex_color( $_POST['buy_x_get_x_fixed_font_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_x_fixed_font_code']) ) {
+			update_option( 'buy_x_get_x_fixed_font_code', sanitize_text_field( $_POST['buy_x_get_x_fixed_font_code'] ?? '' ) );
+		}
 
 		// ✔️ Buy X → Y toggle
-		update_option( 'enable_flash_sal_buy_x_and_y', isset( $_POST['enable_flash_sal_buy_x_and_y'] ) ? 'yes' : 'no' );
+		// if ( isset($_POST['enable_flash_sal_buy_x_and_y']) ) {
+			update_option( 'enable_flash_sal_buy_x_and_y', isset( $_POST['enable_flash_sal_buy_x_and_y'] ) ? 'yes' : 'no' );
+		// }
 
 		// ✔️ Buy X → Y fields
-		update_option( 'buy_x_get_y_free_message', sanitize_text_field( $_POST['buy_x_get_y_free_message'] ?? '' ) );
-		update_option( 'buy_x_get_y_free_bg_color', sanitize_hex_color( $_POST['buy_x_get_y_free_bg_color'] ?? '' ) );
-		update_option( 'buy_x_get_y_free_bg_code', sanitize_text_field( $_POST['buy_x_get_y_free_bg_code'] ?? '' ) );
-		update_option( 'buy_x_get_y_free_font_color', sanitize_hex_color( $_POST['buy_x_get_y_free_font_color'] ?? '' ) );
-		update_option( 'buy_x_get_y_free_font_code', sanitize_text_field( $_POST['buy_x_get_y_free_font_code'] ?? '' ) );
+		if ( isset($_POST['buy_x_get_y_free_message']) ) {
+			update_option( 'buy_x_get_y_free_message', sanitize_text_field( $_POST['buy_x_get_y_free_message'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_free_bg_color']) ) {
+			update_option( 'buy_x_get_y_free_bg_color', sanitize_hex_color( $_POST['buy_x_get_y_free_bg_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_free_bg_code']) ) {
+			update_option( 'buy_x_get_y_free_bg_code', sanitize_text_field( $_POST['buy_x_get_y_free_bg_code'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_free_font_color']) ) {
+			update_option( 'buy_x_get_y_free_font_color', sanitize_hex_color( $_POST['buy_x_get_y_free_font_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_free_font_code']) ) {
+			update_option( 'buy_x_get_y_free_font_code', sanitize_text_field( $_POST['buy_x_get_y_free_font_code'] ?? '' ) );
+		}
 
-		update_option( 'buy_x_get_y_percentage_message', sanitize_text_field( $_POST['buy_x_get_y_percentage_message'] ?? '' ) );
-		update_option( 'buy_x_get_y_percentage_bg_color', sanitize_hex_color( $_POST['buy_x_get_y_percentage_bg_color'] ?? '' ) );
-		update_option( 'buy_x_get_y_percentage_bg_code', sanitize_text_field( $_POST['buy_x_get_y_percentage_bg_code'] ?? '' ) );
-		update_option( 'buy_x_get_y_percentage_font_color', sanitize_hex_color( $_POST['buy_x_get_y_percentage_font_color'] ?? '' ) );
-		update_option( 'buy_x_get_y_percentage_font_code', sanitize_text_field( $_POST['buy_x_get_y_percentage_font_code'] ?? '' ) );
+		if ( isset($_POST['buy_x_get_y_percentage_message']) ) {
+			update_option( 'buy_x_get_y_percentage_message', sanitize_text_field( $_POST['buy_x_get_y_percentage_message'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_percentage_bg_color']) ) {
+			update_option( 'buy_x_get_y_percentage_bg_color', sanitize_hex_color( $_POST['buy_x_get_y_percentage_bg_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_percentage_bg_code']) ) {
+			update_option( 'buy_x_get_y_percentage_bg_code', sanitize_text_field( $_POST['buy_x_get_y_percentage_bg_code'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_percentage_font_color']) ) {
+			update_option( 'buy_x_get_y_percentage_font_color', sanitize_hex_color( $_POST['buy_x_get_y_percentage_font_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_percentage_font_code']) ) {
+			update_option( 'buy_x_get_y_percentage_font_code', sanitize_text_field( $_POST['buy_x_get_y_percentage_font_code'] ?? '' ) );
+		}
 
-		update_option( 'buy_x_get_y_fixed_message', sanitize_text_field( $_POST['buy_x_get_y_fixed_message'] ?? '' ) );
-		update_option( 'buy_x_get_y_fixed_bg_color', sanitize_hex_color( $_POST['buy_x_get_y_fixed_bg_color'] ?? '' ) );
-		update_option( 'buy_x_get_y_fixed_bg_code', sanitize_text_field( $_POST['buy_x_get_y_fixed_bg_code'] ?? '' ) );
-		update_option( 'buy_x_get_y_fixed_font_color', sanitize_hex_color( $_POST['buy_x_get_y_fixed_font_color'] ?? '' ) );
-		update_option( 'buy_x_get_y_fixed_font_code', sanitize_text_field( $_POST['buy_x_get_y_fixed_font_code'] ?? '' ) );
+		if ( isset($_POST['buy_x_get_y_fixed_message']) ) {
+			update_option( 'buy_x_get_y_fixed_message', sanitize_text_field( $_POST['buy_x_get_y_fixed_message'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_fixed_bg_color']) ) {
+			update_option( 'buy_x_get_y_fixed_bg_color', sanitize_hex_color( $_POST['buy_x_get_y_fixed_bg_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_fixed_bg_code']) ) {
+			update_option( 'buy_x_get_y_fixed_bg_code', sanitize_text_field( $_POST['buy_x_get_y_fixed_bg_code'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_fixed_font_color']) ) {
+			update_option( 'buy_x_get_y_fixed_font_color', sanitize_hex_color( $_POST['buy_x_get_y_fixed_font_color'] ?? '' ) );
+		}
+		if ( isset($_POST['buy_x_get_y_fixed_font_code']) ) {
+			update_option( 'buy_x_get_y_fixed_font_code', sanitize_text_field( $_POST['buy_x_get_y_fixed_font_code'] ?? '' ) );
+		}
 
-
-
-		update_option( 'enable_flash_sal_buy_x_and_y', isset( $_POST['enable_flash_sal_buy_x_and_y'] ) ? 'yes' : 'no' );
-		// update_option( 'wc_bogo_discount_based_on', sanitize_text_field( $_POST['discount_based_on'] ?? 'regular_price' ) );
-
-		$value_to_save = sanitize_text_field( $_POST['discount_based_on'] ?? 'regular_price' );
-		update_option( 'wc_bogo_discount_based_on', $value_to_save );
-		error_log( '[BOGO LOG] wc_bogo_discount_based_on saved value: ' . $value_to_save );
+		if ( isset($_POST['min_price_for_discount']) ) {
+			update_option('min_price_for_discount', sanitize_text_field($_POST['min_price_for_discount']));
+		}
+		// $min_price = sanitize_text_field( $_POST['min_price_for_discount'] ?? '' );
+		// update_option( 'min_price_for_discount', $min_price );
+		// error_log( '[BOGO LOG] wc_bogo_discount_based_on saved value: ' . $min_price );
+		if ( isset($_POST['enable_flash_sal_buy_x_and_y']) ) {
+			update_option( 'enable_flash_sal_buy_x_and_y', isset( $_POST['enable_flash_sal_buy_x_and_y'] ) ? 'yes' : 'no' );
+		}
+		// 
+		
+		if ( isset($_POST['discount_based_on']) ) {
+			update_option( 'wc_bogo_discount_based_on', sanitize_text_field( $_POST['discount_based_on'] ?? 'regular_price' ) );
+		}
+		// $value_to_save = sanitize_text_field( $_POST['discount_based_on'] ?? 'regular_price' );
+		// update_option( 'wc_bogo_discount_based_on', $value_to_save );
+		// error_log( '[BOGO LOG] wc_bogo_discount_based_on saved value: ' . $value_to_save );
 
 		// Redirect back to your settings page
 		wp_redirect( admin_url( 'admin.php?page=wc-bogo-settings&tab=settings&saved=1' ) );

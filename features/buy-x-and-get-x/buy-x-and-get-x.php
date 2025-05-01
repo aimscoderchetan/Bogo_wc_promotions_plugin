@@ -226,6 +226,17 @@
                         $cart->add_to_cart($product_id, $items_to_add, 0, array(), array('bogo_free' => true));
                     }
 
+                    if ($discount_type === 'free') {
+                        // Any item flagged bogo_free for this product gets a zero price
+                        foreach ($cart->get_cart() as $ci_key => $ci) {
+                            if (!empty($ci['bogo_free']) && $ci['product_id'] === $product_id) {
+                                $ci['data']->set_price(0);
+                            }
+                        }
+                        // skip the fixed/percentage fee logic entirely
+                        continue; 
+                    }                   
+
                     // Apply discount fee if set.
                     if ($discount_value > 0) {
                         if ($discount_type === 'fixed') {

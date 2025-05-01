@@ -77,10 +77,16 @@
             $value   = floatval(    get_post_meta( $deal_id, '_cart_discount_value',      true ) );
             $max_cap = floatval(    get_post_meta( $deal_id, '_cart_max_discount_value',  true ) );
             $tip     = get_post_meta( $deal_id, '_cart_discount_tooltip',     true );
+            // $min_price = get_post_meta( $deal_id, 'min_price_for_discount',     true );
+            // sanitize_text_field( $_POST['min_price_for_discount'] ?? '' );
+            $min_price_for_discount =  get_option( 'min_price_for_discount', 0 );
+            error_log("hello i am in coupoun " . $min_price_for_discount);
+            $discount_based_on =  get_option( 'wc_bogo_discount_based_on', "regular_price" );
+            error_log("hello i am in coupoun  discount_based_on " . $discount_based_on);
 
             // Minimum spend fallback
-            $min_spend = 10;
-            if ( $subtotal < $min_spend ) {
+            // $min_price_for_discount = 10;
+            if ( $subtotal < $min_price_for_discount ) {
                 continue;
             }
 
@@ -129,7 +135,7 @@
             $coupon->set_amount(        $discount_amount );
             $coupon->set_description(   wp_strip_all_tags( $tip ) );
             $coupon->set_individual_use( true );
-            $coupon->set_minimum_amount( $min_spend );
+            $coupon->set_minimum_amount( $min_price_for_discount );
             $coupon->save();
 
             // Apply it if not already in the cart
@@ -151,3 +157,30 @@
         }
     }
 // Cart Discount on
+
+// function checks for discount based on global setting Regular_Price or Sale_Price start here
+    // add_action( 'woocommerce_before_calculate_totals', 'wc_bogo_adjust_cart_item_prices', 30, 1 );
+    // function wc_bogo_adjust_cart_item_prices( $cart ) {
+    //     if ( is_admin() && ! defined( 'DOING_AJAX' ) || ! WC()->cart ) {
+    //         return;
+    //     }
+
+    //     // Choose 'regular_price' or 'sale_price'
+    //     $based_on = get_option( 'wc_bogo_discount_based_on', 'regular_price' );
+
+    //     foreach ( $cart->get_cart() as $item ) {
+    //         $product = $item['data'];
+
+    //         // If sale price is selected but not set, fall back
+    //         if ( $based_on == 'sales_price' ) {
+    //             $new_price = $product->get_sale_price();
+    //             error_log( "get_sale_price" . $new_price);
+    //         } else {
+    //             $new_price = $product->get_regular_price();
+    //             error_log( "get_regular_price". $new_price);
+    //         }
+
+    //         $product->set_price( $new_price );
+    //     }
+    // }
+// function checks for discount based on global setting Regular_Price or Sale_Price End here
