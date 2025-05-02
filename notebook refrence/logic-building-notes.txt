@@ -1,5 +1,17 @@
 Hello Sir, F.Y.I
  
+Module 3 :-
+    1.) Flash Sales Setting Option has been completed 
+    2.) Setup phpcs n php-cs-fixer & R & D code improvement standards
+    2.) Code has been Improved 
+    3.) Cart Discount enhancement & cart & checkout validated
+    4.) Unit testing all feature Self review done.
+    5.) all module code has structure change asper sales price and regular price
+
+<< In-Progress  
+
+Hello Sir, F.Y.I
+ 
 Module 3 :- 
     1.) Flash Sales Setting Option has been completed 
     2.) Cart Discount global setting has been completed 
