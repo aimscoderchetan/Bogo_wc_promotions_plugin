@@ -1,1 +1,5 @@
 learning-sql
+vendor
+composer.json
+composer.lock
+includes/bad-sample.php
